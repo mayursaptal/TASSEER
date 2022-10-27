@@ -45,4 +45,25 @@ class Users extends RestController
             }
         }
     }
+
+
+    public function signup_post()
+    {
+        
+    }
+
+    public function login_post()
+    {
+        // email pass
+    }
+
+    public function reset_post()
+    {
+        // email 
+    }
+
+    public function verify_post()
+    {
+        // otp 
+    }
 }
