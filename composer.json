@@ -13,7 +13,8 @@
 	"require": {
 		"php": ">=5.3.7",
 		"stripe/stripe-php": "^8.9",
-		"ezyang/htmlpurifier": "^4.14"
+		"ezyang/htmlpurifier": "^4.14",
+		"chriskacerguis/codeigniter-restserver": "^3.1"
 	},
 	"suggest": {
 		"paragonie/random_compat": "Provides better randomness in PHP 5.x"
