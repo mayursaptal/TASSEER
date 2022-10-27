@@ -18,8 +18,6 @@ class MY_Model extends CI_Model
         if (empty($args)) {
             throw new Exception("Invalide Arguments", 1);
         }
-
-        $this->db->set('uuid', time() . '-' . uniqid());
         return $this->db->insert($this->table, $args);
     }
 
@@ -51,8 +49,14 @@ class MY_Model extends CI_Model
         );
     }
 
-    function get_count()
+    function get_count($where = array())
     {
+
+        if($where){
+            $this->db->where($where);
+        }
+       
+
         return  $this->db->count_all($this->table);
     }
 }

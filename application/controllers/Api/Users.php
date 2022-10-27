@@ -10,46 +10,82 @@ class Users extends RestController
     {
         // Construct the parent class
         parent::__construct();
+        $this->load->model('User_model');
     }
 
     public function index_get($id = '')
     {
-        // Users from a data store e.g. database
-        $users = [
-            ['id' => 0, 'name' => 'John', 'email' => 'john@example.com'],
-            ['id' => 1, 'name' => 'Jim', 'email' => 'jim@example.com'],
-        ];
-
-
-
-        if ($id === null) {
-            // Check if the users data store contains users
-            if ($users) {
-                // Set the response and exit
-                $this->response($users, 200);
-            } else {
-                // Set the response and exit
-                $this->response([
-                    'status' => false,
-                    'message' => 'No users were found'
-                ], 404);
-            }
-        } else {
-            if (array_key_exists($id, $users)) {
-                $this->response($users[$id], 200);
-            } else {
-                $this->response([
-                    'status' => false,
-                    'message' => 'No such user found'
-                ], 404);
-            }
-        }
+        $this->response(["users endpoint."], 200);
     }
 
 
     public function signup_post()
     {
-        
+        $errors = array();
+
+        $name_en = $this->post('name_en');
+        $name_arb = $this->post('name_arb');
+        $email = $this->post('email');
+        $phone = $this->post('phone');
+        $password = $this->post('password');
+
+        if (empty($name_en) && empty($name_arb)) {
+            $errors[] = "Name is required";
+        }
+
+        if (empty($email)) {
+            $errors[] = "Email is required";
+        } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $errors[] = "Invalid Email";
+        }
+
+        if (empty($phone)) {
+            $errors[] = "Phone is required";
+        }
+
+        if (empty($password)) {
+            $errors[] = "Password is required";
+        }
+
+        if (!empty($errors)) {
+            return $this->response([
+                "success" => false,
+                "errors" =>  $errors,
+                "data" => []
+            ], RestController::HTTP_BAD_REQUEST);
+        }
+
+        $emails = $this->User_model->get_count(array(
+            'email' => $email
+        ));
+
+        if ($emails) {
+            $errors[] = "Email already exist";
+            return $this->response([
+                "success" => false,
+                "errors" =>  $errors,
+                "data" => []
+            ], RestController::HTTP_BAD_REQUEST);
+        }
+
+        $password = hash('sha256', $password);
+
+        $insert = $this->User_model->add(array(
+            'name_en' => $name_en,
+            'name_arb' => $name_arb,
+            'email' => $email,
+            'phone' => $phone,
+            'password' => $password
+        ));
+
+
+        return $this->response([
+            "success" => $insert,
+            "errors" =>  $errors,
+            "data" => $insert ?  ["message" => "user created successfully"] : [],
+        ],  $insert ? RestController::HTTP_CREATED : RestController::HTTP_NOT_ACCEPTABLE);
+
+
     }
 
     public function login_post()
