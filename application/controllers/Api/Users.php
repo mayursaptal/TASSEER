@@ -69,6 +69,7 @@ class Users extends RestController
         }
 
         $password = hash('sha256', $password);
+        $this->db->set('token', time() . '-' . uniqid());
 
         $insert = $this->User_model->add(array(
             'name_en' => $name_en,
@@ -77,6 +78,7 @@ class Users extends RestController
             'phone' => $phone,
             'password' => $password
         ));
+
 
 
         return $this->response([
@@ -91,11 +93,49 @@ class Users extends RestController
     public function login_post()
     {
         // email pass
+        $errors = array();
+        $email = $this->post('email');
+        $password = $this->post('password');
+
+        if (empty($email)) {
+            $errors[] = "Please Enter Email";
+        } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $errors[] = "Invalid Email";
+        }
+
+        if (empty($password)) {
+            $errors[] = "Please Enter Password";
+        }
+
+        if (!empty($errors)) {
+            return $this->response([
+                "success" => false,
+                "errors" =>  $errors,
+                "data" => []
+            ], RestController::HTTP_BAD_REQUEST);
+        }
+        $password = hash('sha256', $password);
+
+        $user = $this->User_model->get(array(
+            "email" => $email,
+            "password" => $password
+        ));
+
+        return $this->response([
+            "success" => 
+            $user ? true : false,
+            "errors" =>  $errors,
+            "data" => $user ? $user['data'][0] : [],
+        ],  $user ? RestController::HTTP_OK : RestController::HTTP_NOT_ACCEPTABLE);
     }
 
     public function reset_post()
     {
         // email 
+        $errors = array();
+        $email = $this->post('email');
+        
+
     }
 
     public function verify_post()

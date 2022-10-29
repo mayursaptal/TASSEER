@@ -3,10 +3,7 @@
 
        <!-- Sidebar - Brand -->
        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?php echo base_url()?>">
-           <div class="sidebar-brand-icon rotate-n-15">
-               <i class="">G</i>
-           </div>
-           <div class="sidebar-brand-text mx-3">Growth CRM</div>
+           <div><img src="<?php echo base_url()?>/theme/img/Logo8.png" width="100px"></div>
        </a>
 
 
@@ -22,7 +19,7 @@
 
            <li class="nav-item ">
                <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapse<?php echo $index ?>" aria-expanded="true" aria-controls="collapse<?php echo $index ?>">
-                   <i class="fas fa-fw fa-cog"></i>
+                    <i class="fa-solid fa-circle-user"></i>
                    <span> <?php echo $header ?></span>
                </a>
                <div id="collapse<?php echo $index ?>" class="collapse " aria-labelledby="heading<?php echo $index ?>" data-parent="#accordionSidebar">

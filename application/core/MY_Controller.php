@@ -42,6 +42,9 @@ class MY_Controller extends CI_Controller
 
     function isAuthRoute()
     {
+
+        return true;
+
         $class = trim(strtolower($this->router->fetch_class()));
         $method = trim(strtolower($this->router->fetch_method()));
 
