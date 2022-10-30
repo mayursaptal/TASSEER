@@ -306,11 +306,18 @@ class MY_Controller extends CI_Controller
         $this->page('UI/module/add_view', $data);
     }
 
-
-
-    public function delete($id)
+    public function delete($uuid)
     {
+
+
+        
+        $this->model->delete(array(
+            'uuid' => $uuid
+        ));
+        redirect(base_url(get_class($this)));
+        exit();
     }
+
     public  function edit($id)
     {
         $data = array();

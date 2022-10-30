@@ -12,12 +12,11 @@ class MY_Model extends CI_Model
         $this->load->database();
     }
 
-
     function add($args)
     {
         if (empty($args)) {
             throw new Exception("Invalide Arguments", 1);
-        }       
+        }
         $this->db->set('uuid', time() . '-' . uniqid());
         return $this->db->insert($this->table, $args);
     }
@@ -52,12 +51,16 @@ class MY_Model extends CI_Model
 
     function get_count($where = array())
     {
-
-        if($where){
+        if ($where) {
             $this->db->where($where);
         }
-       
 
         return  $this->db->get($this->table)->num_rows();
+    }
+
+    function delete($where)
+    {
+        $this->db->where($where);
+        return $this->db->delete($this->table);
     }
 }

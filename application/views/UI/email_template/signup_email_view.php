@@ -33,7 +33,7 @@
                 <table role="presentation" style="width:602px;border-collapse:collapse;border:1px solid #cccccc;border-spacing:0;text-align:left;">
                     <tr>
                         <td align="center" style="padding:0px;background:#512DAB !important;">
-                            <img src="http://localhost:8080//theme/img/Logo8.png" alt="" width="100" style="height:auto;display:block;" />
+                            <img src="<?php echo base_url() ?>/theme/img/Logo8.png" alt="" width="100" style="height:auto;display:block;" />
                         </td>
                     </tr>
                     <tr>
@@ -41,7 +41,7 @@
                             <table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;">
                                 <tr>
                                     <td style="padding:0 0 36px 0;color:#153643;">
-                                        <h1 style="font-size:24px;margin:0 0 20px 0;font-family:Arial,sans-serif;">Welcome mayur,</h1>
+                                        <h1 style="font-size:24px;margin:0 0 20px 0;font-family:Arial,sans-serif;">Welcome <?php echo $name ?>,</h1>
                                         <p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">Thanks for creating an account on <b>TASSEER APPLICATION</b>. We are very happy to see you here. Now you can login with below mentioned credentials and don't forgot to change your password, because this temporary password.</p>
                                         <p style="margin:0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;"><b>It is valid only for 30 minutes.</b></p>
                                         <p>Here is your login Credentials:</p>
@@ -51,8 +51,8 @@
                                 <tr>
                                     <td style="padding:0 0 36px 0;color:#153643;">
 
-                                        <p style="margin:0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;"><b>EMAIL ID:</b> mayur3@test.com</p>
-                                        <p><b>PASSWORD:</b> test@123</p>
+                                        <p style="margin:0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;"><b>EMAIL ID:</b> <?php echo $email ?></p>
+                                        <p><b>PASSWORD:</b> <?php echo $password ?></p>
 
                                         <br>
 
@@ -85,4 +85,4 @@
     </table>
 </body>
 
-</html> 
+</html>

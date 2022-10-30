@@ -9,6 +9,8 @@ class Users extends MY_Controller
         parent::__construct();
         $this->load->model('User_model');
         $this->model = $this->User_model;
+        $this->load->database();
+		$this->tbl_user = $this->db->dbprefix('user');
     }
 
     public $fields =  array(
@@ -56,4 +58,5 @@ class Users extends MY_Controller
             'label' => 'Phone',
         )
     );
+
 }
