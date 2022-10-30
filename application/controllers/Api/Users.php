@@ -82,7 +82,7 @@ class Users extends RestController
         ));
 
 
-        $subject = "OTP of Tasserr";
+        $subject = "Welcome";
         $body = $this->load->view(
             'UI/email_template/signup_email_view',
             array('password' => $origanlPass, 'email' => $email, 'name' => $name_en ? $name_en : $name_arb),
