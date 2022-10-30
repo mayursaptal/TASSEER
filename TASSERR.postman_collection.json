@@ -34,6 +34,32 @@
 			"response": []
 		},
 		{
+			"name": "Driver Signup",
+			"request": {
+				"url": "localhost:8080/api/drivers/signup",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "",
+						"description": "",
+						"disabled": true
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\t{\r\n    \"name_en\" : \"trupti\",\r\n    \"name_arb\" : \"trupti\",\r\n    \"email\" : \"trupti5@test.com\",\r\n    \"phone\": 1234565432,\r\n    \"vehicle_type\" : \"2wheeler\",\r\n    \"vehicle_number\" : \"MH-21 P-1966\",\r\n    \"vehicle_brand_name\" : \"Activa\",\r\n    \"password\" : \"test@12345\",\r\n    \"about_you\" : \"Test\"\r\n\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
 			"name": "login",
 			"request": {
 				"url": "localhost:8080/api/users/signup",
