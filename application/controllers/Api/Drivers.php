@@ -87,7 +87,7 @@ class Drivers extends RestController
         $origanlPass =  $password;
 
         $password = hash('sha256', $password);
-
+        $this->db->set('token', time() . '-' . uniqid());
         $insert = $this->Driver_model->add(array(
             'name_en' => $name_en,
             'name_arb' => $name_arb,
