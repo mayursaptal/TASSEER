@@ -89,7 +89,9 @@ class Users extends RestController
             true
         );
 
-        mail($email, $subject, $body);
+        $headers = "Content-Type: text/html; charset=UTF-8\r\n";
+
+        mail($email, $subject, $body,   $headers);
 
 
         return $this->response([
@@ -220,7 +222,9 @@ class Users extends RestController
             true
         );
 
-        $resp =  mail($email, $subject, $body);
+        $headers = "Content-Type: text/html; charset=UTF-8\r\n";
+
+        $resp =  mail($email, $subject, $body, $headers);
 
         return $this->response([
             "success" => $resp,
