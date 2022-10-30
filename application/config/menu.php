@@ -12,7 +12,7 @@ return $config['menu'] =
             ],
             [
                 'name'  => 'Driver',
-                'url'   => 'Driver',
+                'url'   => 'drivers',
                 'icons' => 'fas fa-users'
             ],
         ],

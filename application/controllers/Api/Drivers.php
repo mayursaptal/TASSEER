@@ -3,19 +3,19 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 use chriskacerguis\RestServer\RestController;
 
-class Users extends RestController
+class Drivers extends RestController
 {
 
     function __construct()
     {
         // Construct the parent class
         parent::__construct();
-        $this->load->model('User_model');
+        $this->load->model('Driver_model');
     }
 
     public function index_get($id = '')
     {
-        $this->response(["users endpoint."], 200);
+        $this->response(["drivers endpoint."], 200);
     }
 
 
@@ -27,7 +27,11 @@ class Users extends RestController
         $name_arb = $this->post('name_arb');
         $email = $this->post('email');
         $phone = $this->post('phone');
+        $vehicle_type = $this->post('vehicle_type');
+        $vehicle_number = $this->post('vehicle_number');
+        $vehicle_brand_name = $this->post('vehicle_brand_name');
         $password = $this->post('password');
+        $about_you = $this->post('about_you');
 
         if (empty($name_en) && empty($name_arb)) {
             $errors[] = "Name is required";
@@ -47,6 +51,18 @@ class Users extends RestController
             $errors[] = "Password is required";
         }
 
+        if (empty($vehicle_type)) {
+            $errors[] = "Vehicle type is required";
+        }
+
+        if (empty($vehicle_number)) {
+            $errors[] = "Vehicle number is required";
+        }
+
+        if (empty($vehicle_brand_name)) {
+            $errors[] = "Vehicle brand name is required";
+        }
+
         if (!empty($errors)) {
             return $this->response([
                 "success" => false,
@@ -55,7 +71,7 @@ class Users extends RestController
             ], RestController::HTTP_BAD_REQUEST);
         }
 
-        $emails = $this->User_model->get_count(array(
+        $emails = $this->Driver_model->get_count(array(
             'email' => $email
         ));
 
@@ -71,16 +87,18 @@ class Users extends RestController
         $origanlPass =  $password;
 
         $password = hash('sha256', $password);
-        $this->db->set('token', time() . '-' . uniqid());
 
-        $insert = $this->User_model->add(array(
+        $insert = $this->Driver_model->add(array(
             'name_en' => $name_en,
             'name_arb' => $name_arb,
             'email' => $email,
             'phone' => $phone,
-            'password' => $password
+            'vehicle_type' => $vehicle_type,
+            'vehicle_number' => $vehicle_number,
+            'vehicle_brand_name' => $vehicle_brand_name,
+            'password' => $password,
+            'about_you' => $about_you
         ));
-
 
         $subject = "OTP of Tasserr";
         $body = $this->load->view(
@@ -91,11 +109,10 @@ class Users extends RestController
 
         mail($email, $subject, $body);
 
-
         return $this->response([
             "success" => $insert,
             "errors" =>  $errors,
-            "data" => $insert ?  ["message" => "user created successfully"] : [],
+            "data" => $insert ?  ["message" => "Driver created successfully"] : [],
         ],  $insert ? RestController::HTTP_CREATED : RestController::HTTP_NOT_ACCEPTABLE);
     }
 
@@ -135,21 +152,21 @@ class Users extends RestController
             "token"
         ));
 
-        $user = $this->User_model->get(array(
+        $driver = $this->Driver_model->get(array(
             "email" => $email,
             "password" => $password
         ));
 
-        if (empty($user['data'])) {
+        if (empty($driver['data'])) {
             $errors[] = "Invalid Logins";
         }
 
         return $this->response([
             "success" =>
-            $user['data'] ? true : false,
+            $driver['data'] ? true : false,
             "errors" =>  $errors,
-            "data" => $user ? $user['data'] : [],
-        ],  $user['data'] ? RestController::HTTP_OK : RestController::HTTP_NOT_ACCEPTABLE);
+            "data" => $driver ? $driver['data'] : [],
+        ],  $driver['data'] ? RestController::HTTP_OK : RestController::HTTP_NOT_ACCEPTABLE);
     }
 
 
@@ -189,7 +206,7 @@ class Users extends RestController
         }
 
 
-        $emails = $this->User_model->get_count(array(
+        $emails = $this->Driver_model->get_count(array(
             'email' => $email
         ));
 
@@ -206,7 +223,7 @@ class Users extends RestController
 
 
 
-        $this->User_model->update(array(
+        $this->Driver_model->update(array(
             'otp' => $otp
         ), array(
             'email' => $email
@@ -265,22 +282,22 @@ class Users extends RestController
         ));
 
 
-        $user = $this->User_model->get(array(
+        $driver = $this->Driver_model->get(array(
             "email" => $email,
             "otp" => $otp
         ));
 
 
-        if (empty($user['data'])) {
+        if (empty($driver['data'])) {
             $errors[] = "Invalid Email/OTP";
         }
 
         return $this->response([
             "success" =>
-            $user['data'] ? true : false,
+            $driver['data'] ? true : false,
             "errors" =>  $errors,
-            "data" => $user ? $user['data'] : [],
-        ],  $user['data'] ? RestController::HTTP_OK : RestController::HTTP_NOT_ACCEPTABLE);
+            "data" => $driver ? $driver['data'] : [],
+        ],  $driver['data'] ? RestController::HTTP_OK : RestController::HTTP_NOT_ACCEPTABLE);
     }
 
     function change_post($password = 'password')
@@ -321,7 +338,7 @@ class Users extends RestController
         $newpassword  = hash('sha256',   $newpassword);
 
 
-        $resp =  $this->User_model->update(array(
+        $resp =  $this->Driver_model->update(array(
             'password' => $newpassword
         ), array(
             'token' => $token,
@@ -341,15 +358,15 @@ class Users extends RestController
 
 
 
-        $user = $this->User_model->get(array(
+        $driver = $this->Driver_model->get(array(
             "password" => $newpassword,
             "token" => $token
         ));
         return $this->response([
             "success" =>
-            $user['data'] ? true : false,
+            $driver['data'] ? true : false,
             "errors" =>  $errors,
-            "data" => $user ? $user['data'] : [],
-        ],  $user['data'] ? RestController::HTTP_OK : RestController::HTTP_NOT_ACCEPTABLE);
+            "data" => $driver ? $driver['data'] : [],
+        ],  $driver['data'] ? RestController::HTTP_OK : RestController::HTTP_NOT_ACCEPTABLE);
     }
 }
