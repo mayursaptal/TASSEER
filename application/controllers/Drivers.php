@@ -80,17 +80,18 @@ class Drivers extends MY_Controller
                 'type' => 'text'
             ),
             'class' => 'col-md-6',
-            'name'  => 'vehicle_band_name',
+            'name'  => 'vehicle_brand_name',
             'label' => 'Vehicle Band Name',
         ), 
         array(
-            'type'  => 'text',
+            'type'  => 'textarea',
             'attr'  => array(
                 'type' => 'textarea'
             ),
             'class' => 'col-md-12',
             'name'  => 'about_you',
             'label' => 'About you and Vehicle',
+            "hideColumn" => true
         ),
     );
 }
